@@ -1,0 +1,23 @@
+
+/* 全局样式 */
+*{margin:0;padding:0;box-sizing: border-box;}
+
+html,body,#app{
+    height: 100%;
+}
+
+.d-f{
+    display: flex;
+}
+.ai-c{
+    align-items: center;
+}
+.jc-c{
+    justify-content: center;
+}
+.jc-sb{
+    justify-content: space-between;
+}
+.jc-e{
+    justify-content: flex-end;
+}
