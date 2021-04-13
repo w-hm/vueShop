@@ -14,6 +14,7 @@ module.exports = {
       semi: 0,
       "space-before-function-paren": 0,
       eqeqeq: ["off"],
+      "no-unused-vars": 'off'
     },
     overrides: [
       {
