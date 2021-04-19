@@ -1,7 +1,7 @@
 <template>
     <div class="users">
         <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item>首页</el-breadcrumb-item>
+            <el-breadcrumb-item to="/home">首页</el-breadcrumb-item>
             <el-breadcrumb-item>用户管理</el-breadcrumb-item>
             <el-breadcrumb-item>用户列表</el-breadcrumb-item>
         </el-breadcrumb>
@@ -48,7 +48,7 @@
                                     <el-button  type="danger" icon="el-icon-delete" size="mini" @click="removeUser(scope.row.id)"></el-button>
                                 </el-tooltip>
                                 <el-tooltip class="item" effect="dark" content="分配角色" placement="top" :enterable="false">
-                                    <el-button  type="warning" icon="el-icon-setting" size="mini"></el-button>
+                                    <el-button  type="warning" icon="el-icon-setting" size="mini" @click="setRoleRight(scope.row)"></el-button>
                                 </el-tooltip>
                             </template>
                         </el-table-column>
@@ -115,6 +115,33 @@
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editModal = false">取 消</el-button>
                 <el-button type="primary" @click="submitEdit">确 定</el-button>
+            </span>
+        </el-dialog>
+
+        <!-- 分配权限弹窗 -->
+        <el-dialog
+            title="分配角色"
+            :visible.sync="setRole"
+            width="50%"
+            @close="setRoleClose">
+            <div>
+                <p class="mb-20">当前用户：{{rightInfo.username}}</p>
+                <p class="mb-20">当前角色：{{rightInfo.role_name}}</p>
+                <p>
+                    分配新角色：
+                    <el-select v-model="currentRole" placeholder="请选择">
+                        <el-option
+                        v-for="item in roleRightsList"
+                        :key="item.id"
+                        :label="item.roleName"
+                        :value="item.id">
+                        </el-option>
+                    </el-select>
+                </p>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="setRole = false">取 消</el-button>
+                <el-button type="primary" @click="saveRoleInfo">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -193,7 +220,11 @@ export default {
                     { required: true, message: '请输入手机号', trigger: 'blur' },
                     { validator:checkMobile , trigger: 'blur'}
                 ],
-            }
+            },
+            setRole:false,
+            rightInfo:[],
+            roleRightsList:[],
+            currentRole:''
         };
     },
     mounted(){
@@ -295,6 +326,34 @@ export default {
                         message: '已取消删除'
                     });
                 });
+        },
+        // 分配权限
+        setRoleRight(rightInfo){
+            this.$http.get('roles').then(res=>{
+                if(res.data.meta.status!==200) return this.$message.error('获取角色权限失败！')
+                this.roleRightsList=res.data.data
+            })
+            this.rightInfo=rightInfo
+            this.setRole=true
+        },
+        // 保存分配角色
+        saveRoleInfo(){
+            if(!this.currentRole) return this.$message.error('请选择用户角色！')
+
+            this.$http.put(`users/${this.rightInfo.id}/role`,{
+                rid:this.currentRole
+            }).then(res=>{
+                if(res.data.meta.status!==200) return this.$message.error('更改角色失败！')
+                
+                this.$message.success('更改角色成功！')
+                this.setRole=false
+                this.getUserList()
+            })
+        },
+        // 监听关闭分配弹窗
+        setRoleClose(){
+            this.currentRole='';
+            this.rightInfo={}
         }
     }
 };
