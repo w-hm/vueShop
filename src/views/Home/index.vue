@@ -76,9 +76,8 @@ export default {
         // 获取左侧菜单栏
         getMenuList(){
             this.$http.get('menus').then(res=>{
-                if(res.data.meta.status!==200) return this.$message.error(res.data.meta.msg)
 
-                this.menuList=res.data.data
+                this.menuList=res.data
 
                 // console.log(this.menuList)
             })

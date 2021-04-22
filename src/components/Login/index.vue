@@ -68,7 +68,7 @@ export default {
 
                 this.$http.post("login", this.loginForm).then((res) => {
                     // console.log(res.data)
-                if (res.data.meta.status !== 200) return  this.$message.error({
+                if (res.meta.status!== 200) return  this.$message.error({
                     message:'登陆失败',
                     center:true
                 }) 
@@ -79,7 +79,7 @@ export default {
                 })
 
                 // 存储token
-                window.sessionStorage.setItem('token',res.data.data.token)
+                window.sessionStorage.setItem('token',res.data.token)
                 this.$router.push('/home')
             });
         });

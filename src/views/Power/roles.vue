@@ -99,10 +99,10 @@ export default {
         // 获取角色列表
         getRoleList(){
             this.$http.get('roles').then(res=>{
-                if (res.data.meta.status!==200) {
+                if (res.meta.status!==200) {
                     this.$message.error('获取角色列表失败！')
                 }
-                this.roleList=res.data.data
+                this.roleList=res.data
             })
         },
 
@@ -114,12 +114,10 @@ export default {
                     type: 'warning'
                 }).then(() => {
                     this.$http.delete(`roles/${role.id}/rights/${rightId}`).then(res=>{
-                        if(res.data.meta.status!==200) return this.$message.error('删除失败！')
+                        if(res.meta.status!==200) return this.$message.error('删除失败！')
 
                         this.$message.success('删除权限成功！')
-                        console.log(role)
-                        role.children=res.data.data
-                        // roleId=res.data.data
+                        role.children=res.data
                     })
                 }).catch(() => {
                     this.$message({
@@ -133,9 +131,9 @@ export default {
         getRightsList(role){
             this.roleId=role.id
             this.$http.get('rights/tree').then(res=>{
-                if(res.data.meta.status!==200) return this.$message.error('获取权限列表失败！')
+                if(res.meta.status!==200) return this.$message.error('获取权限列表失败！')
 
-                this.rightsList=res.data.data
+                this.rightsList=res.data
             })
             this.getKeys(role,this.defaultKeys)
             this.powerModal=true
@@ -162,8 +160,7 @@ export default {
             var keysStr=keys.join(',')
             this.$http.post(`roles/${this.roleId}/rights`,
             {rids:keysStr}).then(res=>{
-                console.log(res)
-                if (res.data.meta.status!==200) return this.$message.error('分配权限失败！')
+                if (res.meta.status!==200) return this.$message.error('分配权限失败！')
             
                 this.getRoleList()
             })

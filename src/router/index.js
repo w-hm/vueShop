@@ -21,6 +21,7 @@ const routes = [
             {path:'/users',component:()=>import('../views/Users')},
             {path:'/rights',component:()=>import('../views/Power')},
             {path:'/roles',component:()=>import('../views/Power/roles')},
+            {path:'/categories',component:()=>import('../views/Goods/cate')},
         ]
     },
     

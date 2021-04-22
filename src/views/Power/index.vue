@@ -40,12 +40,11 @@ export default {
   methods:{
       getPowerList(){
           this.$http.get('rights/list').then(res=>{
-              console.log(res)
-              if (res.data.meta.status!==200) {
+              if (res.meta.status!==200) {
                   this.$message.error('获取列表失败')
               }
 
-              this.powerList=res.data.data
+              this.powerList=res.data
           })
       }
   }

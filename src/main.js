@@ -4,15 +4,16 @@ import router from './router'
 import './plugins/element.js'
 import "./assets/style/css/common.css"
 
-import axios from 'axios'
-axios.defaults.baseURL="http://127.0.0.1:8888/api/private/v1/"
-Vue.prototype.$http=axios
+// 解决级联选择器样式问题
+import 'element-ui/lib/theme-chalk/index.css'
 
-// 拦截器，每次发送请求都要再header里面添加一个属性并携带token
-axios.interceptors.request.use(config=>{
-    config.headers.Authorization=window.sessionStorage.getItem('token')
-    return config
-})
+// axios
+import "./netWork/http.js"
+
+// vue树形表格
+import TreeTable from "vue-table-with-tree-grid"
+
+Vue.component('tree-table',TreeTable)
 
 Vue.config.productionTip = false
 

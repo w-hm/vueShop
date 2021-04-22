@@ -234,9 +234,9 @@ export default {
         // 获取用户列表
         getUserList(){
             this.$http.get('users',{params:this.queryInfo}).then(res=>{
-                if(res.data.meta.status!==200) return this.$message.error(res.data.meta.msg);
-                this.userList=res.data.data.users
-                this.total=res.data.data.total
+                if(res.meta.status!==200) return this.$message.error(res.meta.msg);
+                this.userList=res.data.users
+                this.total=res.data.total
             })
         },
         // 当前数据多少条
@@ -253,7 +253,7 @@ export default {
         // 更新用户状态
         userState(userInfo){
             this.$http.put(`users/${userInfo.id}/state/${userInfo.mg_state}`).then(res=>{
-                if (res.data.meta.status!==200) {
+                if (res.meta.status!==200) {
                     this.$message.error('更新用户状态失败')
                 }
 
@@ -274,7 +274,7 @@ export default {
                 if(!val) return
 
                 this.$http.post('users',this.addForm).then(res=>{
-                    if(res.data.meta.status!==201){
+                    if(res.meta.status!==201){
                         this.$message.error('新增用户失败')
                     }else{
                         this.$message.success('添加成功')
@@ -287,7 +287,7 @@ export default {
         // 修改用户
         fixUser(id){
             this.$http.get('users/'+id).then(res=>{
-                this.editForm=res.data.data
+                this.editForm=res.data
             })
             this.editModal=true
         },
@@ -296,7 +296,7 @@ export default {
             this.$refs.editRef.validate(val=>{
                 if (val) {
                     this.$http.put(`users/${this.editForm.id}`,this.editForm).then(res=>{
-                        if(res.data.meta.status!==200) return this.message.error('修改失败！')
+                        if(res.meta.status!==200) return this.message.error('修改失败！')
 
                         this.$message.success('更新用户信息成功！')
                         this.editModal=false;
@@ -315,7 +315,7 @@ export default {
                 }).then(() => {
                     this.$http.delete(`users/${id}`).then(res=>{
                         console.log(res)
-                        if(res.data.meta.status!==200) return this.$message.error(res.data.meta.msg)
+                        if(res.meta.status!==200) return this.$message.error(re.meta.msg)
 
                         this.$message.success('删除用户成功')
                         this.getUserList()
@@ -330,8 +330,8 @@ export default {
         // 分配权限
         setRoleRight(rightInfo){
             this.$http.get('roles').then(res=>{
-                if(res.data.meta.status!==200) return this.$message.error('获取角色权限失败！')
-                this.roleRightsList=res.data.data
+                if(res.meta.status!==200) return this.$message.error('获取角色权限失败！')
+                this.roleRightsList=res.data
             })
             this.rightInfo=rightInfo
             this.setRole=true
@@ -343,7 +343,7 @@ export default {
             this.$http.put(`users/${this.rightInfo.id}/role`,{
                 rid:this.currentRole
             }).then(res=>{
-                if(res.data.meta.status!==200) return this.$message.error('更改角色失败！')
+                if(res.meta.status!==200) return this.$message.error('更改角色失败！')
                 
                 this.$message.success('更改角色成功！')
                 this.setRole=false
