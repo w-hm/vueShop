@@ -138,7 +138,6 @@ export default {
         // 获取商品列表
         getGoodsList(){
             this.$http.get('categories',{params:this.goodsInfo}).then(res=>{
-                console.log(res.data.result)
                 if(res.meta.status!==200) return this.$message.error('获取商品失败！')
 
                 this.goodsList=res.data.result

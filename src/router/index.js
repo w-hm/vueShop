@@ -23,6 +23,8 @@ const routes = [
             {path:'/roles',component:()=>import('../views/Power/roles')},
             {path:'/categories',component:()=>import('../views/Goods/cate')},
             {path:'/params',component:()=>import('../views/Goods/params')},
+            {path:'/goods',component:()=>import('../views/Goods/list')},
+            {path:'/goods/add',component:()=>import('../views/Goods/add')},
         ]
     },
     
