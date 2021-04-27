@@ -199,7 +199,6 @@ export default {
 
         // 预览
         handlePreview(img){
-            console.log(img)
             this.previewModal=true
             this.imgPath=img.response.data.url
         },
@@ -245,7 +244,6 @@ export default {
                 })
                 formInfo.attrs=this.addForm.attrs
                 this.$http.post('goods',formInfo).then(res=>{
-                    console.log(res)
                     if(res.meta.status!==201) return this.$message.error(res.meta.msg)
 
                     this.$message.success('添加商品成功！')

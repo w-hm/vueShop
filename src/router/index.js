@@ -25,6 +25,7 @@ const routes = [
             {path:'/params',component:()=>import('../views/Goods/params')},
             {path:'/goods',component:()=>import('../views/Goods/list')},
             {path:'/goods/add',component:()=>import('../views/Goods/add')},
+            {path:'/orders',component:()=>import('../views/Order/order')},
         ]
     },
     
